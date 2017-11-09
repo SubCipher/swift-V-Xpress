@@ -1,5 +1,5 @@
 ![videoexpressions_large](https://user-images.githubusercontent.com/12479502/32527151-cce1398e-c3fa-11e7-8414-21863196e395.png)
-# ios-nd-swift-3-Final 
+
 # Video-Xpressions
 
 Multimedia app for creating, viewing, merging and posting a series of videos:
