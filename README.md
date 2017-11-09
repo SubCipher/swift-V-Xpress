@@ -13,18 +13,19 @@ This app implements:
 
 
 Implemented Frameworks:
+1) Foundation
+2) Core Data
+3) AVFoundation
+4) Photos
+5) SystemConfiguration
+6) UIKit
+7) SafariServices
+8) AssetsLibrary
+9) AVKit
+10) MediaPlayer
+11) MobileCoreServices
 
-AssetsLibrary
-AVKit
-CoreMedia
-Foundation
-AVFoundation
-MediaPlayer
-MobileCoreServices
-Photos
-SafariServices
-SystemConfiguration
-UIKit
+
 
 Built using xcode 8.3
 
