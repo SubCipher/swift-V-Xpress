@@ -8,9 +8,6 @@ Multimedia app for creating, viewing, merging and posting a series of videos:
 Requirements: 
 YouTube Account & Internet access for posting videos
 
-This app implements:
-
-
 
 Implemented Frameworks:
 1) Foundation
@@ -26,10 +23,7 @@ Implemented Frameworks:
 11) MobileCoreServices
 
 
-
 Built using xcode 8.3
-
-
 
 Requirements:
 

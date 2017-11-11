@@ -20,87 +20,65 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="4iw-C0-1L3">
+                            <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="cSo-1Y-6JJ" customClass="VideoPreview" customModule="VideoClient" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                                 <subviews>
-                                    <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="cSo-1Y-6JJ" customClass="VideoPreview" customModule="VideoClient" customModuleProvider="target">
+                                    <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="equalSpacing" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ydU-1G-La0" userLabel="All Buttons Stack View">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="623"/>
                                         <subviews>
-                                            <stackView opaque="NO" contentMode="scaleAspectFit" axis="vertical" distribution="fillProportionally" alignment="center" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="ydU-1G-La0" userLabel="All Buttons Stack View">
-                                                <rect key="frame" x="87" y="42" width="239" height="539"/>
-                                                <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="Xwz-xK-acr">
-                                                        <rect key="frame" x="57" y="0.0" width="125" height="95.333333333333343"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jxo-nx-a46">
-                                                                <rect key="frame" x="0.0" y="0.0" width="125" height="95.333333333333343"/>
-                                                                <state key="normal" backgroundImage="vc_recordButton">
-                                                                    <color key="titleColor" red="1" green="0.97867305011235883" blue="0.061161693879438483" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </state>
-                                                                <state key="disabled">
-                                                                    <color key="titleColor" red="0.5705014832437918" green="0.59236189670890549" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </state>
-                                                                <connections>
-                                                                    <action selector="recordButtonAction:" destination="hxb-wp-1wp" eventType="touchUpInside" id="K8J-s2-Lc6"/>
-                                                                </connections>
-                                                            </button>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="FnE-44-uMc">
-                                                        <rect key="frame" x="19.666666666666671" y="110.33333333333333" width="200" height="180"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iaS-BK-dAy">
-                                                                <rect key="frame" x="0.0" y="0.0" width="200" height="179.99999999999997"/>
-                                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
-                                                                <state key="normal" backgroundImage="vc_createShare">
-                                                                    <color key="titleColor" red="1" green="0.96110233725484107" blue="0.17406933912502043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </state>
-                                                                <state key="disabled">
-                                                                    <color key="titleColor" red="0.5705014832437918" green="0.59236189670890549" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </state>
-                                                                <connections>
-                                                                    <segue destination="ytS-0z-qsY" kind="show" id="3Is-tU-q5E"/>
-                                                                </connections>
-                                                            </button>
-                                                        </subviews>
-                                                    </stackView>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Bj0-Li-07p">
-                                                        <rect key="frame" x="19.666666666666671" y="305.33333333333326" width="200" height="233.66666666666674"/>
-                                                        <subviews>
-                                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRr-Yw-UvR">
-                                                                <rect key="frame" x="0.0" y="0.0" width="200" height="233.66666666666669"/>
-                                                                <state key="normal" backgroundImage="vc_LockedServiceGlobe00">
-                                                                    <color key="titleColor" red="0.96181129720000003" green="1" blue="0.15438479020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </state>
-                                                                <state key="disabled">
-                                                                    <color key="titleColor" red="0.5705014832437918" green="0.59236189670890549" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                                </state>
-                                                            </button>
-                                                        </subviews>
-                                                    </stackView>
-                                                </subviews>
-                                                <variation key="heightClass=compact" axis="horizontal" distribution="fillProportionally"/>
-                                            </stackView>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Jxo-nx-a46">
+                                                <rect key="frame" x="94.666666666666686" y="0.0" width="225" height="149"/>
+                                                <state key="normal" backgroundImage="vc_recordButton">
+                                                    <color key="titleColor" red="1" green="0.97867305011235883" blue="0.061161693879438483" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <state key="disabled">
+                                                    <color key="titleColor" red="0.5705014832437918" green="0.59236189670890549" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="recordButtonAction:" destination="hxb-wp-1wp" eventType="touchUpInside" id="K8J-s2-Lc6"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iaS-BK-dAy">
+                                                <rect key="frame" x="107" y="207.66666666666669" width="200" height="157"/>
+                                                <fontDescription key="fontDescription" style="UICTFontTextStyleHeadline"/>
+                                                <state key="normal" backgroundImage="vc_createShare">
+                                                    <color key="titleColor" red="1" green="0.96110233725484107" blue="0.17406933912502043" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <state key="disabled">
+                                                    <color key="titleColor" red="0.5705014832437918" green="0.59236189670890549" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <segue destination="ytS-0z-qsY" kind="show" id="3Is-tU-q5E"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uRr-Yw-UvR">
+                                                <rect key="frame" x="107" y="423" width="200" height="200"/>
+                                                <state key="normal" backgroundImage="vc_LockedServiceGlobe00">
+                                                    <color key="titleColor" red="0.96181129720000003" green="1" blue="0.15438479020000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <state key="disabled">
+                                                    <color key="titleColor" red="0.5705014832437918" green="0.59236189670890549" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                            </button>
                                         </subviews>
-                                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    </view>
+                                        <variation key="heightClass=compact" axis="horizontal"/>
+                                    </stackView>
                                 </subviews>
-                            </stackView>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="ydU-1G-La0" firstAttribute="top" secondItem="cSo-1Y-6JJ" secondAttribute="top" id="4Xj-S9-3Dz"/>
+                                    <constraint firstAttribute="bottom" secondItem="ydU-1G-La0" secondAttribute="bottom" id="R9f-AW-8ju"/>
+                                    <constraint firstItem="ydU-1G-La0" firstAttribute="leading" secondItem="cSo-1Y-6JJ" secondAttribute="leading" id="WjN-LR-f90"/>
+                                    <constraint firstAttribute="trailing" secondItem="ydU-1G-La0" secondAttribute="trailing" id="Xm0-ae-g58"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="4iw-C0-1L3" secondAttribute="trailing" id="3VV-aS-dX0"/>
-                            <constraint firstItem="kKW-hy-1Tz" firstAttribute="top" secondItem="4iw-C0-1L3" secondAttribute="bottom" id="8uL-83-P62"/>
-                            <constraint firstItem="kKW-hy-1Tz" firstAttribute="top" secondItem="ydU-1G-La0" secondAttribute="bottom" constant="42" id="9kJ-zM-Di9"/>
-                            <constraint firstAttribute="trailing" secondItem="ydU-1G-La0" secondAttribute="trailing" constant="88" id="KAy-jU-ycV">
-                                <variation key="heightClass=compact" constant="50"/>
-                            </constraint>
-                            <constraint firstItem="4iw-C0-1L3" firstAttribute="top" secondItem="bsV-Je-844" secondAttribute="bottom" id="Skl-Z6-byM"/>
-                            <constraint firstItem="ydU-1G-La0" firstAttribute="leading" secondItem="f9W-ml-K8Q" secondAttribute="leading" constant="87" id="hs5-nx-hzq">
-                                <variation key="heightClass=compact" constant="50"/>
-                            </constraint>
-                            <constraint firstItem="4iw-C0-1L3" firstAttribute="leading" secondItem="f9W-ml-K8Q" secondAttribute="leading" id="id2-Zz-CcD"/>
-                            <constraint firstItem="ydU-1G-La0" firstAttribute="top" secondItem="bsV-Je-844" secondAttribute="bottom" constant="42" id="shD-8m-IK2"/>
+                            <constraint firstAttribute="trailing" secondItem="cSo-1Y-6JJ" secondAttribute="trailing" id="IRm-gQ-zWZ"/>
+                            <constraint firstItem="cSo-1Y-6JJ" firstAttribute="leading" secondItem="f9W-ml-K8Q" secondAttribute="leading" id="IXm-Tk-0dq"/>
+                            <constraint firstItem="cSo-1Y-6JJ" firstAttribute="top" secondItem="bsV-Je-844" secondAttribute="bottom" id="d5M-ti-Yf9"/>
+                            <constraint firstItem="kKW-hy-1Tz" firstAttribute="top" secondItem="cSo-1Y-6JJ" secondAttribute="bottom" id="sjx-Cz-MTP"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="ZX2-qz-k1d"/>
@@ -110,7 +88,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="kgO-Me-vBr" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-5214" y="-2777"/>
+            <point key="canvasLocation" x="-5214.4927536231889" y="-2778.2608695652175"/>
         </scene>
         <!--Video Client MergeVC-->
         <scene sceneID="iDe-8H-xHk">
@@ -348,7 +326,7 @@
         <image name="vc_createShare" width="200" height="157"/>
         <image name="vc_merge" width="125" height="94"/>
         <image name="vc_playbackButton" width="125" height="94"/>
-        <image name="vc_recordButton" width="125" height="83"/>
+        <image name="vc_recordButton" width="225" height="149"/>
         <image name="vc_uploadButton" width="125" height="94"/>
         <image name="youtubeBcast" width="290" height="150"/>
     </resources>
