@@ -24,10 +24,12 @@ class VideoClientMergeVC: UIViewController {
     var secondVideoAsset: AVAsset?
     var thirdVideoAsset: AVAsset?
     var fourthVideoAsset: AVAsset?
+    
     var audioAsset: AVAsset?
     var loadingVideoAsset = 0
     var assetDidLoad = false
     var assetsLoaded = 0
+    
     var playbackURL: URL?
     var assetsArray = [AVAsset]()
     
@@ -36,8 +38,8 @@ class VideoClientMergeVC: UIViewController {
     var avPlayer: AVPlayer?
     
     
-    var VIDEO_WIDTH = 640.0
-    var VIDEO_HEIGHT = 480.0
+    var VIDEO_WIDTH = 200.0
+    var VIDEO_HEIGHT = 300.0
     
     enum assetSeqNumber: Int {
     case one = 1,two,three,four
@@ -75,20 +77,35 @@ class VideoClientMergeVC: UIViewController {
         }
         return true
     }
+    func getVideo(){
+        PHPhotoLibrary.requestAuthorization({(status: PHAuthorizationStatus)->Void in
+            if PHPhotoLibrary.authorizationStatus() == PHAuthorizationStatus.authorized {
+                self.imagePickerFromVC(self, usingDelegate: self)
+            } else {
+                let alert = UIAlertController(title:"Unauthorized", message:"user authorized required for action", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
+                self.present(alert,animated: true,completion: nil)
+            }
+        })
+    }
     
-    func startMediaBrowserFromViewController(_ viewController: UIViewController!, usingDelegate delegate : (UINavigationControllerDelegate & UIImagePickerControllerDelegate)!) -> Bool {
+    
+    
+    func imagePickerFromVC(_ viewController: UIViewController, usingDelegate delegate : UINavigationControllerDelegate & UIImagePickerControllerDelegate) {
         
         if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) == false {
-            return false
+            let alert = UIAlertController(title: "ERROR", message: "Source not found", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+            present(alert,animated: true,completion: nil)
         }
         
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .savedPhotosAlbum
-        imagePicker.mediaTypes = [kUTTypeMovie as NSString as String]
+        imagePicker.mediaTypes = [kUTTypeMovie as String]
         imagePicker.allowsEditing = true
         imagePicker.delegate = delegate
         present(imagePicker, animated: true, completion: nil)
-        return true
+        
     }
     
     @IBAction func loadVideoAssetOne(_ sender: AnyObject) {
@@ -96,7 +113,7 @@ class VideoClientMergeVC: UIViewController {
             
              loadingVideoAsset = assetSeqNumber.one.rawValue
             
-            _ = startMediaBrowserFromViewController(self, usingDelegate: self)
+            getVideo()
         }
     }
     
@@ -107,7 +124,7 @@ class VideoClientMergeVC: UIViewController {
            
             loadingVideoAsset = assetSeqNumber.two.rawValue
             
-            _ = startMediaBrowserFromViewController(self, usingDelegate: self)
+            getVideo()
         }
     }
     
@@ -117,7 +134,7 @@ class VideoClientMergeVC: UIViewController {
             
             loadingVideoAsset = assetSeqNumber.three.rawValue
           
-            _ = startMediaBrowserFromViewController(self,usingDelegate: self)
+            getVideo()
         }
     }
     
@@ -128,7 +145,7 @@ class VideoClientMergeVC: UIViewController {
             
             loadingVideoAsset = assetSeqNumber.four.rawValue
             
-            _ = startMediaBrowserFromViewController(self, usingDelegate: self)
+            getVideo()
         }
         
     }
@@ -153,27 +170,30 @@ class VideoClientMergeVC: UIViewController {
         var allVideoInstruction = [AVMutableVideoCompositionLayerInstruction]()
         
         var startDuration:CMTime = kCMTimeZero
-        var assets = mAssetsList
+        //var assets = mAssetsList
        
         
         //var strCaption = ""
-        for i in 0..<assets.count {
-            let currentAsset:AVAsset = assets[i]
+        for i in 0..<assetsArray.count {
+            let currentAsset:AVAsset = assetsArray[i]
             
-            let currentTrack = mixComposition.addMutableTrack(withMediaType: AVMediaTypeVideo,
+            guard let currentTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.video,
                                                               preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+                else {
+                    return
+                }
             
             do {
                 try currentTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, currentAsset.duration),
-                                                 of : currentAsset.tracks(withMediaType: AVMediaTypeVideo)[0],
+                                                 of : currentAsset.tracks(withMediaType: AVMediaType.video)[0],
                                                  at: startDuration)
                 
-                let currentInstruction:AVMutableVideoCompositionLayerInstruction = videoCompositionInstructionForTrack(track: currentTrack, asset: currentAsset)
+                let currentInstruction = videoCompositionInstructionForTrack(track: currentTrack, asset: currentAsset)
                 
                 currentInstruction.setOpacityRamp(fromStartOpacity: 0.0, toEndOpacity: 1.0,
                                                   timeRange: CMTimeRangeMake(startDuration, CMTimeMake(1, 1)))
                 
-                if i != assets.count - 1 {
+                if i != assetsArray.count - 1 {
                     
                     currentInstruction.setOpacityRamp(fromStartOpacity: 1.0,
                                                      toEndOpacity: 0.0,
@@ -181,7 +201,7 @@ class VideoClientMergeVC: UIViewController {
                                                          CMTimeMake(1, 1)),
                                                         CMTimeMake(2, 1)))
                 }
-                let transform:CGAffineTransform = currentTrack.preferredTransform
+                let transform = currentTrack.preferredTransform
                 
                 if orientationFromTransform(transform: transform).isPortrait {
                     let outputSize:CGSize = CGSize(width: VIDEO_WIDTH, height: VIDEO_HEIGHT)
@@ -189,10 +209,11 @@ class VideoClientMergeVC: UIViewController {
                     
                     let verticalRatio = CGFloat(outputSize.height) / currentTrack.naturalSize.height
                     let scaleToFitRatio = max(horizontalRatio,verticalRatio)
-                    let FirstAssetScaleFactor = CGAffineTransform(scaleX:scaleToFitRatio,y:scaleToFitRatio)
+                    let FirstAssetScaleFactor = CGAffineTransform(scaleX: scaleToFitRatio,y:scaleToFitRatio)
                     
                     if currentAsset.g_orientation == .landscapeLeft {
                         let rotation = CGAffineTransform(rotationAngle: .pi)
+                        
                         let translateToCenter = CGAffineTransform(translationX: CGFloat(VIDEO_WIDTH),y: CGFloat(VIDEO_HEIGHT))
                         let mixedTransform = rotation.concatenating(translateToCenter)
                         
@@ -213,15 +234,15 @@ class VideoClientMergeVC: UIViewController {
         
         mainComposition.instructions = [mainInstruction]
         mainComposition.frameDuration = CMTimeMake(1, 30)
-        mainComposition.renderSize = CGSize(width: 640, height: 480)
+        mainComposition.renderSize = CGSize(width: VIDEO_WIDTH, height: VIDEO_HEIGHT)
         
         //MARK: - audio track
         if let loadedAudioAsset = audioAsset {
 
-            let audioTrack = mixComposition.addMutableTrack(withMediaType: AVMediaTypeAudio, preferredTrackID: 0)
+            let audioTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: 0)
 
             do {
-                try audioTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, CMTimeAdd((assets.first?.duration)!, (assets.last?.duration)!)), of: loadedAudioAsset.tracks(withMediaType: AVMediaTypeAudio)[0], at: kCMTimeZero)
+                try audioTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, CMTimeAdd((assetsArray.first?.duration)!, (assetsArray.last?.duration)!)), of: loadedAudioAsset.tracks(withMediaType: AVMediaType.audio)[0], at: kCMTimeZero)
             } catch {  print("failed to load audio") }
         }
 
@@ -242,7 +263,7 @@ class VideoClientMergeVC: UIViewController {
         guard let assetExporter = AVAssetExportSession(asset: mixComposition, presetName: AVAssetExportPresetHighestQuality) else {   return  }
         
         assetExporter.outputURL = url as URL
-        assetExporter.outputFileType = AVFileTypeQuickTimeMovie
+        assetExporter.outputFileType = AVFileType.mov
         assetExporter.shouldOptimizeForNetworkUse = true
         assetExporter.videoComposition = mainComposition
         
@@ -355,6 +376,7 @@ class VideoClientMergeVC: UIViewController {
                     return
                 }
                 print("Ⓜ️save video to PhotosAlbum")
+               
                 
             }
             )}
@@ -405,10 +427,10 @@ class VideoClientMergeVC: UIViewController {
 
 extension AVAsset {
     var g_size: CGSize {
-    return tracks(withMediaType: AVMediaTypeVideo).first?.naturalSize ?? .zero
+    return tracks(withMediaType: AVMediaType.video).first?.naturalSize ?? .zero
     }
     var g_orientation: UIInterfaceOrientation {
-        guard let transform = tracks(withMediaType: AVMediaTypeVideo).first?.preferredTransform else {
+        guard let transform = tracks(withMediaType: AVMediaType.video).first?.preferredTransform else {
             return .portrait
             }
         switch (transform.tx,transform.ty) {

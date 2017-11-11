@@ -50,12 +50,12 @@ class VideoWaterMarkMgr: NSObject {
             let mixComposition = AVMutableComposition()
             
             // 2 - Create video tracks
-            let compositionVideoTrack = mixComposition.addMutableTrack(withMediaType: AVMediaTypeVideo, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-            let clipVideoTrack = videoAsset.tracks(withMediaType: AVMediaTypeVideo)[0]
+            let compositionVideoTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.video, preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
+            let clipVideoTrack = videoAsset.tracks(withMediaType: AVMediaType.video)[0]
             
             
             do {
-                try compositionVideoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration), of: clipVideoTrack, at: kCMTimeZero)
+                try compositionVideoTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration), of: clipVideoTrack, at: kCMTimeZero)
                 
             }  catch { }
             
@@ -134,9 +134,9 @@ class VideoWaterMarkMgr: NSObject {
             /// instruction
             let instruction = AVMutableVideoCompositionInstruction()
             instruction.timeRange = CMTimeRangeMake(kCMTimeZero, mixComposition.duration)
-            _ = mixComposition.tracks(withMediaType: AVMediaTypeVideo)[0] as AVAssetTrack
+            _ = mixComposition.tracks(withMediaType: AVMediaType.video)[0] as AVAssetTrack
             
-            let layerInstruction = self.videoCompositionInstructionForTrack(track: compositionVideoTrack, asset: videoAsset)
+            let layerInstruction = self.videoCompositionInstructionForTrack(track: compositionVideoTrack!, asset: videoAsset)
             
            // let layerInstruction = AVMutableVideoCompositionLayerInstruction(assetTrack: videoTrack)
             
@@ -160,7 +160,7 @@ class VideoWaterMarkMgr: NSObject {
             exporter?.outputURL = url as URL
             print(" exporter?.outputURL", exporter?.outputURL)
             //exporter?.outputFileType = AVFileTypeQuickTimeMovie
-            exporter?.outputFileType = AVFileTypeMPEG4
+            exporter?.outputFileType = AVFileType.mp4
             exporter?.shouldOptimizeForNetworkUse = true
             exporter?.videoComposition = videoComp
             
@@ -231,7 +231,7 @@ class VideoWaterMarkMgr: NSObject {
     
     private func videoCompositionInstructionForTrack(track: AVCompositionTrack, asset: AVAsset) -> AVMutableVideoCompositionLayerInstruction {
         let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
-        let assetTrack = asset.tracks(withMediaType: AVMediaTypeVideo)[0]
+        let assetTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
         
         let transform = assetTrack.preferredTransform
         let assetInfo = orientationFromTransform(transform: transform)

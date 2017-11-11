@@ -34,7 +34,7 @@ class VideoClientRecordViewController: UIViewController  {
     }
     
     
-    func video(videoPath: NSString, didFinishSavingWithError error: NSError?, contextInfo info: AnyObject) {
+    @objc func video(videoPath: NSString, didFinishSavingWithError error: NSError?, contextInfo info: AnyObject) {
         var title = "Success"
         var message = "Video was saved"
         if let _ = error {
