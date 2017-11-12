@@ -23,7 +23,7 @@ Implemented Frameworks:
 11) MobileCoreServices
 
 
-Built using xcode 8.3
+Built using xcode 9 
 
 Requirements:
 
@@ -38,3 +38,7 @@ est. time for to process = 10sec + length of video shoot
 
 Requirements: Build and run; requires cameras/vidCam, WILL NOT run in sumulator.
 
+Reference Docs and links:
+https://developer.apple.com/documentation/safariservices/sfsafariviewcontroller
+https://stackoverflow.com/questions/38818786/safariviewcontroller-how-to-grab-oauth-token-from-url
+https://www.raywenderlich.com/94404/play-record-merge-videos-ios-swift

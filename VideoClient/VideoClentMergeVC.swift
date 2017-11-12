@@ -38,8 +38,8 @@ class VideoClientMergeVC: UIViewController {
     var avPlayer: AVPlayer?
     
     
-    var VIDEO_WIDTH = 200.0
-    var VIDEO_HEIGHT = 300.0
+    var VIDEO_WIDTH = 375.0
+    var VIDEO_HEIGHT = 667.0
     
     enum assetSeqNumber: Int {
     case one = 1,two,three,four
@@ -338,12 +338,49 @@ class VideoClientMergeVC: UIViewController {
     
     
     func videoCompositionInstructionForTrack(track: AVCompositionTrack,asset: AVAsset) -> AVMutableVideoCompositionLayerInstruction {
-        
+
         let instruction = AVMutableVideoCompositionLayerInstruction(assetTrack: track)
+        let assetTrack = asset.tracks(withMediaType: AVMediaType.video)[0]
         
+        let transform = assetTrack.preferredTransform
+        let assetInfo = orientationFromTransform(transform: transform)
+        
+        var scaleToFitRatio = UIScreen.main.bounds.width / assetTrack.naturalSize.width
+        if assetInfo.isPortrait {
+            scaleToFitRatio = UIScreen.main.bounds.width / assetTrack.naturalSize.height
+            let scaleFactor = CGAffineTransform(scaleX: scaleToFitRatio, y: scaleToFitRatio)
+            instruction.setTransform(assetTrack.preferredTransform.concatenating(scaleFactor),at: kCMTimeZero)
+        } else {
+            let scaleFactor = CGAffineTransform(scaleX: scaleToFitRatio, y: scaleToFitRatio)
+            //var concat = CGAffineTransform.concatenating(scaleFactor)
+            
+            var concat = assetTrack.preferredTransform.concatenating(scaleFactor).concatenating(CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.width / 2))
+
+            
+            if assetInfo.orientation == .down {
+                let fixUpsideDown = CGAffineTransform(rotationAngle: CGFloat(M_PI))
+                
+                let windowsBounds = UIScreen.main.bounds
+                let yFix = assetTrack.naturalSize.height + windowsBounds.height
+                let centerFix = CGAffineTransform(translationX: assetTrack.naturalSize.width, y: yFix)
+                
+                 concat = fixUpsideDown.concatenating(centerFix).concatenating(scaleFactor)
+                
+               
+                
+            }
+            instruction.setTransform(concat, at: kCMTimeZero)
+       
+            
+        }
+
         return instruction
-        
+
     }
+    
+    
+    
+    
     
     
     
