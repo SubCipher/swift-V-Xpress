@@ -6,14 +6,9 @@
 //  Copyright © 2017 StepwiseDesigns. All rights reserved.
 //
 
-
-
-
-
 extension VideoClientAPIViewController {
     
     struct apiURLs {
-        
         //URL paths
         static let googleAuthURL = "https://accounts.google.com/o/oauth2/v2/auth?"
         static let baseURL = "https://www.googleapis.com/"
@@ -48,8 +43,8 @@ extension VideoClientAPIViewController {
     
     struct apiClientCreds {
         //app unique IDs
-        static let scheme = ""
-        static let apiKey = ""
-        static let clientID = ""
+        static let scheme = " "
+        static let apiKey = " "
+        static let clientID = " "
     }
 }

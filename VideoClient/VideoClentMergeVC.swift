@@ -187,14 +187,6 @@ class VideoClientMergeVC: UIViewController {
         return true
     }
     
-    
-    
-   
-    
-  
-    
-        
-    
     //MARK: - merge video
     func mergeVideo(_ mAssetsList:[AVAsset]){
         
@@ -402,6 +394,10 @@ class VideoClientMergeVC: UIViewController {
                     return
                 }
                 print("Ⓜ️save video to PhotosAlbum")
+                
+                let alert = UIAlertController(title: "Merge", message: "video merge complete", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
             )}
         
