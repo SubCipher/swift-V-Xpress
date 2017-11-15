@@ -189,6 +189,12 @@ class VideoClientMergeVC: UIViewController {
     
     
     
+   
+    
+  
+    
+        
+    
     //MARK: - merge video
     func mergeVideo(_ mAssetsList:[AVAsset]){
         
@@ -199,63 +205,66 @@ class VideoClientMergeVC: UIViewController {
         var allVideoInstruction = [AVMutableVideoCompositionLayerInstruction]()
         
         var startDuration:CMTime = kCMTimeZero
-        //var assets = mAssetsList
+        
+        var atTimeM: CMTime = CMTimeMake(0, 0)
+        var videoSize: CGSize = CGSize(width: 0.0, height: 0.0)
+         var totalTime : CMTime = CMTimeMake(0, 0)
+   
         
         
-        //var strCaption = ""
-        for i in 0..<assetsArray.count {
-            let currentAsset:AVAsset = assetsArray[i]
+         for videoAsset in assetsArray {
             
-            guard let currentTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.video,
+            guard let videoTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.video,
                                                                     preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
-                else { return  }
-            
+                else {  return }
+           
             do {
-                try currentTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, currentAsset.duration),
-                                                 of : currentAsset.tracks(withMediaType: AVMediaType.video)[0],
-                                                 at: startDuration)
                 
-                let currentInstruction = videoCompositionInstructionForTrack(track: currentTrack, asset: currentAsset)
+                if videoAsset == assetsArray.first {  atTimeM = kCMTimeZero  } else {
+                    atTimeM = totalTime // <-- Use the total time for all the videos seen so far.
+                }
+                try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
+                                               of: videoAsset.tracks(withMediaType: AVMediaType.video)[0],
+                                               at: atTimeM)
+                videoSize = videoTrack.naturalSize
+                
+                
+                let currentInstruction = videoCompositionInstructionForTrack(track: videoTrack, asset: videoAsset)
                 
                 currentInstruction.setOpacityRamp(fromStartOpacity: 0.0, toEndOpacity: 1.0,
                                                   timeRange: CMTimeRangeMake(startDuration, CMTimeMake(1, 1)))
+ 
+               totalTime = totalTime + videoAsset.duration // <-- Update the total time for all videos.
                 
-                if i != assetsArray.count - 1 {
-                    
-                    currentInstruction.setOpacityRamp(fromStartOpacity: 1.0,
-                                                      toEndOpacity: 0.0,
-                                                      timeRange: CMTimeRangeMake(CMTimeSubtract(CMTimeAdd(currentAsset.duration, startDuration),
-                                                                                                CMTimeMake(1, 1)),
-                                                                                 CMTimeMake(2, 1)))
-                }
-                let transform = currentTrack.preferredTransform
+                
+                let transform = videoTrack.preferredTransform
                 
                 if orientationFromTransform(transform: transform).isPortrait {
                     let outputSize:CGSize = CGSize(width: VIDEO_WIDTH, height: VIDEO_HEIGHT)
-                    let horizontalRatio = CGFloat(outputSize.width) / currentTrack.naturalSize.width
+                    let horizontalRatio = CGFloat(outputSize.width) / videoTrack.naturalSize.width
                     
-                    let verticalRatio = CGFloat(outputSize.height) / currentTrack.naturalSize.height
+                    let verticalRatio = CGFloat(outputSize.height) / videoTrack.naturalSize.height
                     let scaleToFitRatio = max(horizontalRatio,verticalRatio)
                     let FirstAssetScaleFactor = CGAffineTransform(scaleX: scaleToFitRatio,y:scaleToFitRatio)
                     
-                    if currentAsset.g_orientation == .landscapeLeft {
+                    if videoAsset.g_orientation == .landscapeLeft {
                         let rotation = CGAffineTransform(rotationAngle: .pi)
                         
                         let translateToCenter = CGAffineTransform(translationX: CGFloat(VIDEO_WIDTH),y: CGFloat(VIDEO_HEIGHT))
                         let mixedTransform = rotation.concatenating(translateToCenter)
                         
-                        currentInstruction.setTransform(currentTrack.preferredTransform.concatenating(FirstAssetScaleFactor).concatenating(mixedTransform), at: kCMTimeZero)
+                        currentInstruction.setTransform(videoTrack.preferredTransform.concatenating(FirstAssetScaleFactor).concatenating(mixedTransform), at: kCMTimeZero)
                     } else {
-                        currentInstruction.setTransform(currentTrack.preferredTransform.concatenating(FirstAssetScaleFactor), at: kCMTimeZero)
+                        currentInstruction.setTransform(videoTrack.preferredTransform.concatenating(FirstAssetScaleFactor), at: kCMTimeZero)
                     }
                 }
                 allVideoInstruction.append(currentInstruction)
                 
-                startDuration = CMTimeAdd(startDuration,currentAsset.duration)
+                startDuration = CMTimeAdd(startDuration,videoAsset.duration)
                 
             } catch {  print("ERROR_LOADING_VIDEO")  }
             
-        }
+        } //end for loop
         mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, startDuration)
         mainInstruction.layerInstructions = allVideoInstruction
         
