@@ -33,12 +33,6 @@ YouTube Account & Internet access for posting videos
 
 This app offers creative users an effortless approach to add content to a social media outlet. The seamless approach of my app allows a user to upload custom video content in less than 1 minute in 3 steps: 1)    shoot video 2)    merge videos  3)    post video
 
-est. time for to process = 10sec + length of video shoot
-**results will vary based on network conditions
-
 Requirements: Build and run; requires cameras/vidCam, WILL NOT run in sumulator.
 
-Reference Docs and links:
-https://developer.apple.com/documentation/safariservices/sfsafariviewcontroller
-https://stackoverflow.com/questions/38818786/safariviewcontroller-how-to-grab-oauth-token-from-url
-https://www.raywenderlich.com/94404/play-record-merge-videos-ios-swift
+

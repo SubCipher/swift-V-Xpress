@@ -17,6 +17,11 @@ import MobileCoreServices
  https://developer.apple.com/library/content/samplecode/AVCam/Introduction/Intro.html#//apple_ref/doc/uid/DTS40010112-Intro-DontLinkElementID_2
  
  https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/00_Introduction.html#//apple_ref/doc/uid/TP40010188-CH1-SW3
+ 
+ Reference Docs and links:
+ https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html
+
+ https://www.raywenderlich.com/94404/play-record-merge-videos-ios-swift
  */
 
 class VideoClientRecordViewController: UIViewController  {
@@ -53,7 +58,7 @@ class VideoClientRecordViewController: UIViewController  {
             return false
         }
         
-        let cameraController = UIImagePickerController()
+        var cameraController = UIImagePickerController()
         cameraController.sourceType = .camera
         cameraController.mediaTypes = [kUTTypeMovie as NSString as String]
         cameraController.allowsEditing = false

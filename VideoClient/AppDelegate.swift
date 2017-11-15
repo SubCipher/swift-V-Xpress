@@ -27,10 +27,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         return false
     }
-    
-    
-   
-    
     //Preload data
     func preloadData() {
     }

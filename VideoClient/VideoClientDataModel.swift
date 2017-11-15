@@ -9,19 +9,27 @@
 
 import Foundation
 import UIKit
+import AVFoundation
 
 
+var tagID = 0
+let VIDEO_THUMBNAIL1 = Notification.Name("VideoThumbnail1")
+let VIDEO_THUMBNAIL2 = Notification.Name("VideoThumbnail2")
+let VIDEO_THUMBNAIL3 = Notification.Name("VideoThumbnail3")
+let VIDEO_THUMBNAIL4 = Notification.Name("VideoThumbnail4")
 
 class VideoClientDataModel: NSObject {
     
-    struct videos {
+    struct video {
         
-        var videoURL: URL
+        
         var videoThumbnail: UIImage
+        var videoAsset: AVAsset
         
-        init(videoURL: URL, videoThumbnail: UIImage ) {
-            self.videoURL = videoURL
+        init(videoThumbnail: UIImage, videoAsset:AVAsset ) {
+           
             self.videoThumbnail = videoThumbnail
+            self.videoAsset = videoAsset
         }
     }
     

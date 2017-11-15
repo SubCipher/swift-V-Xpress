@@ -108,25 +108,25 @@
                                     <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="EMZ-ve-IzM">
                                         <rect key="frame" x="19.666666666666657" y="0.0" width="375" height="207.66666666666669"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kE-1B-LYq" userLabel="video1">
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kE-1B-LYq" userLabel="video1">
                                                 <rect key="frame" x="0.3333333333333357" y="57" width="124.99999999999997" height="94"/>
                                                 <state key="normal" backgroundImage="vc_addVideoButton1"/>
                                                 <connections>
-                                                    <action selector="loadVideoAssetOne:" destination="ytS-0z-qsY" eventType="touchUpInside" id="InB-Vv-Vzo"/>
+                                                    <action selector="loadVideoAssetOne:" destination="ytS-0z-qsY" eventType="touchUpInside" id="eUf-WZ-mrj"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hF8-0p-VSf" userLabel="video2">
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hF8-0p-VSf" userLabel="video2">
                                                 <rect key="frame" x="125.33333333333333" y="57" width="125.00000000000004" height="94"/>
                                                 <state key="normal" backgroundImage="vc_addVideoButton2"/>
                                                 <connections>
-                                                    <action selector="loadVideoAssetTwo:" destination="ytS-0z-qsY" eventType="touchUpInside" id="v4r-jG-3Tp"/>
+                                                    <action selector="loadVideoAssetTwo:" destination="ytS-0z-qsY" eventType="touchUpInside" id="oja-NO-vnh"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYs-Ff-h2U" userLabel="video3">
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYs-Ff-h2U" userLabel="video3">
                                                 <rect key="frame" x="250.33333333333337" y="57" width="125" height="94"/>
                                                 <state key="normal" backgroundImage="vc_addVideoButton3"/>
                                                 <connections>
-                                                    <action selector="loadVideoAssetThree:" destination="ytS-0z-qsY" eventType="touchUpInside" id="aFE-az-Szm"/>
+                                                    <action selector="loadVideoAssetThree:" destination="ytS-0z-qsY" eventType="touchUpInside" id="Nr1-lx-ypu"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -134,23 +134,23 @@
                                     <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="dVX-gW-bp3">
                                         <rect key="frame" x="19.666666666666657" y="207.66666666666669" width="375" height="207.66666666666663"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MtN-At-ZBP" userLabel="video4">
+                                            <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MtN-At-ZBP" userLabel="video4">
                                                 <rect key="frame" x="0.0" y="57" width="124.99999999999999" height="94"/>
                                                 <state key="normal" backgroundImage="vc_addVideoButton4"/>
                                                 <connections>
-                                                    <action selector="loadVideoAssetFour:" destination="ytS-0z-qsY" eventType="touchUpInside" id="21m-gt-zw8"/>
+                                                    <action selector="loadVideoAssetFour:" destination="ytS-0z-qsY" eventType="touchUpInside" id="Zaq-NI-DA6"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Glx-Ly-Rxb" userLabel="audio R">
+                                            <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Glx-Ly-Rxb" userLabel="audio R">
                                                 <rect key="frame" x="124.99999999999999" y="25" width="125.00000000000001" height="158"/>
-                                                <state key="normal" backgroundImage="vc_audio"/>
+                                                <state key="normal" image="vc_audio"/>
                                                 <connections>
                                                     <action selector="loadAudioAsset:" destination="ytS-0z-qsY" eventType="touchUpInside" id="6lV-bD-dRy"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oe8-d2-DpZ" userLabel="Merge Button">
+                                            <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oe8-d2-DpZ" userLabel="Merge Button">
                                                 <rect key="frame" x="250" y="57" width="125" height="94"/>
-                                                <state key="normal" backgroundImage="vc_merge"/>
+                                                <state key="normal" image="vc_merge"/>
                                                 <connections>
                                                     <action selector="mergeAssets:" destination="ytS-0z-qsY" eventType="touchUpInside" id="Ud0-85-jEy"/>
                                                 </connections>
@@ -160,9 +160,9 @@
                                     <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xCx-wv-QgX">
                                         <rect key="frame" x="72" y="415.33333333333326" width="270" height="207.66666666666674"/>
                                         <subviews>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U0x-yf-AD7">
+                                            <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U0x-yf-AD7">
                                                 <rect key="frame" x="0.0" y="57.000000000000057" width="125" height="94"/>
-                                                <state key="normal" backgroundImage="vc_playbackButton"/>
+                                                <state key="normal" image="vc_playbackButton"/>
                                                 <connections>
                                                     <action selector="playbackAction:" destination="ytS-0z-qsY" eventType="touchUpInside" id="Q1c-9y-4CJ"/>
                                                 </connections>
@@ -170,9 +170,9 @@
                                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0JJ-vE-otU">
                                                 <rect key="frame" x="125" y="94.000000000000057" width="20" height="20"/>
                                             </activityIndicatorView>
-                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ECn-an-gRD">
+                                            <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ECn-an-gRD">
                                                 <rect key="frame" x="145" y="57.000000000000057" width="125" height="94"/>
-                                                <state key="normal" backgroundImage="vc_uploadButton"/>
+                                                <state key="normal" image="vc_uploadButton"/>
                                                 <connections>
                                                     <action selector="postVideoURLAction:" destination="ytS-0z-qsY" eventType="touchUpInside" id="aFY-7d-yuP"/>
                                                 </connections>
@@ -194,6 +194,10 @@
                     </view>
                     <connections>
                         <outlet property="activityMonitor" destination="0JJ-vE-otU" id="cON-XT-5Q2"/>
+                        <outlet property="addVideoOutlet1" destination="6kE-1B-LYq" id="DsR-Xe-Wqr"/>
+                        <outlet property="addVideoOutlet2" destination="hF8-0p-VSf" id="Noi-jb-sxD"/>
+                        <outlet property="addVideoOutlet3" destination="vYs-Ff-h2U" id="NvG-KC-Rm9"/>
+                        <outlet property="addVideoOutlet4" destination="MtN-At-ZBP" id="9T2-2g-3mU"/>
                         <outlet property="mergeAssetsOutlet" destination="oe8-d2-DpZ" id="8Gn-4Y-xKH"/>
                         <outlet property="videoPlaybackOutlet" destination="U0x-yf-AD7" id="ERb-9X-2gl"/>
                         <outlet property="videoPostOutlet" destination="ECn-an-gRD" id="3cR-c8-7Pk"/>

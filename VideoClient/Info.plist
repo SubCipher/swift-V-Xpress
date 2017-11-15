@@ -43,8 +43,8 @@
 	<string>RequiredAudio</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>$(PRODUCT_NAME) use without malice </string>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>$(PRODUCT_NAME) use without malice </string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>$(PRODUCT_NAME) use without malice </string>
 	<key>REVERSED_CLIENT_ID</key>
 	<string>com.googleusercontent.apps.499301457881-be9dd2agpmak6fa1c98ncsgfn3dru9kn </string>
 	<key>UILaunchStoryboardName</key>
