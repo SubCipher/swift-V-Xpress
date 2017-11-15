@@ -234,8 +234,8 @@ class VideoClientMergeVC: UIViewController {
                 currentInstruction.setOpacityRamp(fromStartOpacity: 0.0, toEndOpacity: 1.0,
                                                   timeRange: CMTimeRangeMake(startDuration, CMTimeMake(1, 1)))
  
-               totalTime = totalTime + videoAsset.duration // <-- Update the total time for all videos.
-                
+              
+                 totalTime = CMTimeAdd(totalTime, videoAsset.duration)
                 
                 let transform = videoTrack.preferredTransform
                 
