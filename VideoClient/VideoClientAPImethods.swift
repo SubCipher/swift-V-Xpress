@@ -116,8 +116,6 @@ class VideoClientAPImethods: NSObject {
             return request
         }
     }
-
-    
     
     //Ref Docs for POST: https://newfivefour.com/swift-form-data-multipart-upload-URLRequest.html
     

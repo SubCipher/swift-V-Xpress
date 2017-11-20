@@ -32,7 +32,7 @@
 	<key>CFBundleVersion</key>
 	<string>1</string>
 	<key>CLIENT_ID</key>
-	<string>499301457881-be9dd2agpmak6fa1c98ncsgfn3dru9kn.apps.googleusercontent.com</string>
+	<string>vClientID</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppleMusicUsageDescription</key>
@@ -46,7 +46,7 @@
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>$(PRODUCT_NAME) use without malice </string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.499301457881-be9dd2agpmak6fa1c98ncsgfn3dru9kn </string>
+	<string>RevClientID</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

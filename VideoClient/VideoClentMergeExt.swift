@@ -42,7 +42,6 @@ extension AVAsset {
 
 extension VideoClientMergeVC: UIImagePickerControllerDelegate {
     
-    // func generateThumbnailForVideoAtURL(filePathLocal: URL, completionForThumnailGen: @escaping (_ success: Bool, _ error: String)-> Void) -> UIImage? {
     
     func generateThumbnailForVideoAtURL(filePathLocal: URL, completionHandlerForThumbnailGen: @escaping (_ success: Bool,_ error: String)->Void) -> UIImage? {
         
@@ -105,8 +104,6 @@ extension VideoClientMergeVC: UIImagePickerControllerDelegate {
             }
             //MARK: - add asset to array
             
-                
-            
             let videoCompWithTagID = video(videoAsset: avAsset, tagID: tagID)
             
             if let foundIndex = videoArray.index(where: { $0.tagID == tagID }) {
@@ -115,16 +112,13 @@ extension VideoClientMergeVC: UIImagePickerControllerDelegate {
             }
             videoArray.append(videoCompWithTagID)
             assetCheck()
-            print("\n\n")
-            print("array elements",videoArray.count)
-            print("\n\n")
+
             //set playback url for sigle file upload
             playbackURL = setPlayBackURL(videoAsset)
             guard let playbackURL = playbackURL else {
                 return
             }
             
-            //picker.dismiss(animated: true, completion: nil)
             
             let alert = UIAlertController(title: "Asset Loaded", message: message, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
@@ -142,7 +136,6 @@ extension VideoClientMergeVC: UIImagePickerControllerDelegate {
             
         }
     }
-    
 }
 extension VideoClientMergeVC: UINavigationControllerDelegate {
     

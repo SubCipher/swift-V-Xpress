@@ -19,9 +19,6 @@ let VIDEO_THUMBNAIL3 = Notification.Name("VideoThumbnail3")
 let VIDEO_THUMBNAIL4 = Notification.Name("VideoThumbnail4")
 
 class VideoClientDataModel: NSObject {
-    
-   
-    
     enum httpMethod {
         case POST
         case GET

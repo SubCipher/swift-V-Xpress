@@ -35,7 +35,6 @@ class VideoClientRecordViewController: UIViewController  {
 
     }
     
-    
     @objc func video(videoPath: NSString, didFinishSavingWithError error: NSError?, contextInfo info: AnyObject) {
         var title = "Success"
         var message = "Video was saved"
@@ -67,7 +66,6 @@ class VideoClientRecordViewController: UIViewController  {
     }
     
     var path = ""
-    
 }
 
 extension VideoClientRecordViewController: UIImagePickerControllerDelegate {
@@ -76,21 +74,12 @@ extension VideoClientRecordViewController: UIImagePickerControllerDelegate {
         let mediaType =  info[UIImagePickerControllerMediaType] as! NSString
         dismiss(animated: true, completion: nil)
         
-        
         if mediaType == kUTTypeMovie {
             guard let path = (info[UIImagePickerControllerMediaURL] as! NSURL).path else { return }
-            
-            print("**")
-            print("mediaType",mediaType)
-            print("**")
-        
             
             if UIVideoAtPathIsCompatibleWithSavedPhotosAlbum(path) {
                 
                 UISaveVideoAtPathToSavedPhotosAlbum(path, self, #selector(VideoClientRecordViewController.video(videoPath:didFinishSavingWithError:contextInfo:)), nil)
-                print("")
-                print("videoURL",path)
-                print("")
             }
         }
     }

@@ -34,7 +34,6 @@ class VideoClientAPIViewController: UIViewController, SFSafariViewControllerDele
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //print("postVideo URL",postVideoURL)
         postVideoOutlet.isEnabled = false
     }
     
