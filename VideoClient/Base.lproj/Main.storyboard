@@ -102,28 +102,28 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kBZ-0c-fQf">
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="kBZ-0c-fQf">
                                 <rect key="frame" x="0.0" y="64" width="414" height="623"/>
                                 <subviews>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="EMZ-ve-IzM">
-                                        <rect key="frame" x="19.666666666666657" y="0.0" width="375" height="207.66666666666669"/>
+                                    <stackView opaque="NO" contentMode="scaleToFill" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="EMZ-ve-IzM">
+                                        <rect key="frame" x="19.666666666666657" y="0.0" width="375" height="94"/>
                                         <subviews>
-                                            <button opaque="NO" tag="1" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kE-1B-LYq" userLabel="video1">
-                                                <rect key="frame" x="0.3333333333333357" y="57" width="124.99999999999997" height="94"/>
+                                            <button opaque="NO" tag="1" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6kE-1B-LYq" userLabel="video1">
+                                                <rect key="frame" x="0.0" y="0.0" width="124.99999999999999" height="94"/>
                                                 <state key="normal" backgroundImage="vc_addVideoButton1"/>
                                                 <connections>
                                                     <action selector="loadVideoAssetOne:" destination="ytS-0z-qsY" eventType="touchUpInside" id="eUf-WZ-mrj"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="2" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hF8-0p-VSf" userLabel="video2">
-                                                <rect key="frame" x="125.33333333333333" y="57" width="125.00000000000004" height="94"/>
+                                            <button opaque="NO" tag="2" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hF8-0p-VSf" userLabel="video2">
+                                                <rect key="frame" x="124.99999999999999" y="0.0" width="125.00000000000001" height="94"/>
                                                 <state key="normal" backgroundImage="vc_addVideoButton2"/>
                                                 <connections>
                                                     <action selector="loadVideoAssetTwo:" destination="ytS-0z-qsY" eventType="touchUpInside" id="oja-NO-vnh"/>
                                                 </connections>
                                             </button>
-                                            <button opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYs-Ff-h2U" userLabel="video3">
-                                                <rect key="frame" x="250.33333333333337" y="57" width="125" height="94"/>
+                                            <button opaque="NO" tag="3" contentMode="scaleToFill" ambiguous="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vYs-Ff-h2U" userLabel="video3">
+                                                <rect key="frame" x="250" y="0.0" width="125" height="94"/>
                                                 <state key="normal" backgroundImage="vc_addVideoButton3"/>
                                                 <connections>
                                                     <action selector="loadVideoAssetThree:" destination="ytS-0z-qsY" eventType="touchUpInside" id="Nr1-lx-ypu"/>
@@ -132,24 +132,24 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillEqually" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="dVX-gW-bp3">
-                                        <rect key="frame" x="19.666666666666657" y="207.66666666666669" width="375" height="207.66666666666663"/>
+                                        <rect key="frame" x="19.666666666666657" y="169.66666666666669" width="375" height="158.00000000000006"/>
                                         <subviews>
                                             <button opaque="NO" tag="4" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MtN-At-ZBP" userLabel="video4">
-                                                <rect key="frame" x="0.0" y="57" width="124.99999999999999" height="94"/>
+                                                <rect key="frame" x="0.0" y="32.000000000000028" width="124.99999999999999" height="94"/>
                                                 <state key="normal" backgroundImage="vc_addVideoButton4"/>
                                                 <connections>
                                                     <action selector="loadVideoAssetFour:" destination="ytS-0z-qsY" eventType="touchUpInside" id="Zaq-NI-DA6"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Glx-Ly-Rxb" userLabel="audio R">
-                                                <rect key="frame" x="124.99999999999999" y="25" width="125.00000000000001" height="158"/>
+                                                <rect key="frame" x="124.99999999999999" y="0.0" width="125.00000000000001" height="158.00000000000003"/>
                                                 <state key="normal" image="vc_audio"/>
                                                 <connections>
-                                                    <action selector="loadAudioAsset:" destination="ytS-0z-qsY" eventType="touchUpInside" id="6lV-bD-dRy"/>
+                                                    <action selector="loadAudioAssetButton:" destination="ytS-0z-qsY" eventType="touchUpInside" id="F1a-Pq-ORR"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" tag="6" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oe8-d2-DpZ" userLabel="Merge Button">
-                                                <rect key="frame" x="250" y="57" width="125" height="94"/>
+                                                <rect key="frame" x="250" y="32.000000000000028" width="125" height="94"/>
                                                 <state key="normal" image="vc_merge"/>
                                                 <connections>
                                                     <action selector="mergeAssets:" destination="ytS-0z-qsY" eventType="touchUpInside" id="Ud0-85-jEy"/>
@@ -157,21 +157,37 @@
                                             </button>
                                         </subviews>
                                     </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="f8H-8w-NTy">
+                                        <rect key="frame" x="197" y="403.33333333333337" width="20" height="50.000000000000057"/>
+                                        <subviews>
+                                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="gQG-7R-QBg">
+                                                <rect key="frame" x="0.0" y="0.0" width="0.0" height="50.000000000000057"/>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dou-YY-5II">
+                                                <rect key="frame" x="0.0" y="0.0" width="20" height="50.000000000000057"/>
+                                                <subviews>
+                                                    <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0JJ-vE-otU">
+                                                        <rect key="frame" x="0.0" y="0.0" width="20" height="50.000000000000057"/>
+                                                    </activityIndicatorView>
+                                                </subviews>
+                                            </stackView>
+                                            <stackView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="loq-45-OG0">
+                                                <rect key="frame" x="20" y="0.0" width="0.0" height="50.000000000000057"/>
+                                            </stackView>
+                                        </subviews>
+                                    </stackView>
                                     <stackView opaque="NO" contentMode="scaleAspectFit" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="xCx-wv-QgX">
-                                        <rect key="frame" x="72" y="415.33333333333326" width="270" height="207.66666666666674"/>
+                                        <rect key="frame" x="82" y="529" width="250" height="94"/>
                                         <subviews>
                                             <button opaque="NO" tag="7" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U0x-yf-AD7">
-                                                <rect key="frame" x="0.0" y="57.000000000000057" width="125" height="94"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="125" height="94"/>
                                                 <state key="normal" image="vc_playbackButton"/>
                                                 <connections>
                                                     <action selector="playbackAction:" destination="ytS-0z-qsY" eventType="touchUpInside" id="Q1c-9y-4CJ"/>
                                                 </connections>
                                             </button>
-                                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="0JJ-vE-otU">
-                                                <rect key="frame" x="125" y="94.000000000000057" width="20" height="20"/>
-                                            </activityIndicatorView>
                                             <button opaque="NO" tag="8" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ECn-an-gRD">
-                                                <rect key="frame" x="145" y="57.000000000000057" width="125" height="94"/>
+                                                <rect key="frame" x="125" y="0.0" width="125" height="94"/>
                                                 <state key="normal" image="vc_uploadButton"/>
                                                 <connections>
                                                     <action selector="postVideoURLAction:" destination="ytS-0z-qsY" eventType="touchUpInside" id="aFY-7d-yuP"/>

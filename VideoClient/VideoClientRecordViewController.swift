@@ -20,7 +20,6 @@ import MobileCoreServices
  
  Reference Docs and links:
  https://developer.apple.com/library/content/documentation/AudioVideo/Conceptual/AVFoundationPG/Articles/03_Editing.html
-
  https://www.raywenderlich.com/94404/play-record-merge-videos-ios-swift
  */
 
@@ -28,8 +27,6 @@ class VideoClientRecordViewController: UIViewController  {
     
     
     @IBOutlet weak var recordButtonOutlet: UIButton!
-    //@IBOutlet weak var videoPreview: VideoPreview!
-   
     
     //MARK:- RecordButton Action
     @IBAction func recordButtonAction(_ sender: UIButton) {
@@ -58,7 +55,7 @@ class VideoClientRecordViewController: UIViewController  {
             return false
         }
         
-        var cameraController = UIImagePickerController()
+        let cameraController = UIImagePickerController()
         cameraController.sourceType = .camera
         cameraController.mediaTypes = [kUTTypeMovie as NSString as String]
         cameraController.allowsEditing = false
@@ -70,14 +67,6 @@ class VideoClientRecordViewController: UIViewController  {
     }
     
     var path = ""
-//    func tempURL() -> URL? {
-//        let directory = NSTemporaryDirectory() as NSString
-//        if directory != "" {
-//            path = directory.appendingPathComponent(NSUUID().uuidString + ".mp4")
-//            return URL(fileURLWithPath: path)
-//        }
-//        return nil
-//    }
     
 }
 
@@ -89,7 +78,6 @@ extension VideoClientRecordViewController: UIImagePickerControllerDelegate {
         
         
         if mediaType == kUTTypeMovie {
-            //guard let path = tempURL()?.path else { return }
             guard let path = (info[UIImagePickerControllerMediaURL] as! NSURL).path else { return }
             
             print("**")

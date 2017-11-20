@@ -21,6 +21,7 @@
 		20D7D4F71F74566F000AD32F /* VideoWaterMarkMgr.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D7D4F61F74566F000AD32F /* VideoWaterMarkMgr.swift */; };
 		20D9F8A31F0E22D700B62F48 /* VideoClientAPImethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D9F8A21F0E22D700B62F48 /* VideoClientAPImethods.swift */; };
 		20D9F8A51F0E8DC900B62F48 /* VideoClientAPIconstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20D9F8A41F0E8DC900B62F48 /* VideoClientAPIconstants.swift */; };
+		20F143681FC28C76009B38D2 /* VideoClentMergeExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20F143671FC28C76009B38D2 /* VideoClentMergeExt.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +41,7 @@
 		20D7D4F61F74566F000AD32F /* VideoWaterMarkMgr.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoWaterMarkMgr.swift; sourceTree = "<group>"; };
 		20D9F8A21F0E22D700B62F48 /* VideoClientAPImethods.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoClientAPImethods.swift; sourceTree = "<group>"; };
 		20D9F8A41F0E8DC900B62F48 /* VideoClientAPIconstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoClientAPIconstants.swift; sourceTree = "<group>"; };
+		20F143671FC28C76009B38D2 /* VideoClentMergeExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoClentMergeExt.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +70,7 @@
 			children = (
 				200248C61F0D5C2F000A92B9 /* VideoClientAPIViewController.swift */,
 				2064302C1F8FAA6900C86124 /* VideoClentMergeVC.swift */,
+				20F143671FC28C76009B38D2 /* VideoClentMergeExt.swift */,
 				200248C71F0D5C2F000A92B9 /* VideoClientRecordViewController.swift */,
 			);
 			name = Controllers;
@@ -193,6 +196,7 @@
 				200248D21F0D5C2F000A92B9 /* VideoClientCustomRect.swift in Sources */,
 				2064302D1F8FAA6900C86124 /* VideoClentMergeVC.swift in Sources */,
 				2090DEF81F66DF5A0074DD2B /* MainTabController.swift in Sources */,
+				20F143681FC28C76009B38D2 /* VideoClentMergeExt.swift in Sources */,
 				20D7D4F71F74566F000AD32F /* VideoWaterMarkMgr.swift in Sources */,
 				200248CA1F0D5C2F000A92B9 /* AppDelegate.swift in Sources */,
 				200248D81F0D5C2F000A92B9 /* VideoClientRecordViewController.swift in Sources */,

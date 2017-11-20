@@ -17,6 +17,7 @@ import Photos
 import MediaPlayer
 import CoreMedia
 
+
 class VideoClientMergeVC: UIViewController {
     
     
@@ -26,27 +27,36 @@ class VideoClientMergeVC: UIViewController {
     var audioAsset: AVAsset?
     var loadingVideoAsset = 0
     var assetDidLoad = false
-    var assetsLoaded = 0
+    //var assetsLoaded = 0
     
     var playbackURL: URL?
-    var assetsArray = [AVAsset]()
+    //var assetsArray = [AVAsset]()
     
-    
+    var audioTrackDidLoad = false
     let avPlayerViewController = AVPlayerViewController()
     var avPlayer: AVPlayer?
     
-    var videoArray = [VideoClientDataModel.video]()
-    var recordedVideo:  VideoClientDataModel.video?
     
+    
+    struct video {
+        
+        var videoAsset: AVAsset
+        var tagID: Int
+        
+        init(videoAsset:AVAsset, tagID: Int ) {
+            
+            self.videoAsset = videoAsset
+            self.tagID = tagID
+        }
+    }
+    
+    var videoArray = [video]()
     var thumbnailOutletImage: UIImage?
-    var ibActionTagArray = [Int]()
-    
     
     var VIDEO_WIDTH = 375.0
     var VIDEO_HEIGHT = 667.0
     
    
-    
     //MARK: - IBOutlets
     @IBOutlet var activityMonitor: UIActivityIndicatorView!
     
@@ -75,17 +85,16 @@ class VideoClientMergeVC: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         assetCheck()
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?){
         if segue.identifier == "postVideoURL" {
             let videoClientAPIViewController = segue.destination as! VideoClientAPIViewController
             videoClientAPIViewController.postVideoURL = playbackURL
-            
         }
     }
     
+    //Mark: - Add notifications to listen for thumbnail image gen
     func addNotifications(){
         
         NotificationCenter.default.addObserver(forName: VIDEO_THUMBNAIL1, object: nil, queue: nil) { notification in
@@ -95,7 +104,6 @@ class VideoClientMergeVC: UIViewController {
                 self.addVideoOutlet1.setImage(self.thumbnailOutletImage, for: .normal)
             }
         }
-        
         
         NotificationCenter.default.addObserver(forName: VIDEO_THUMBNAIL2, object: nil, queue: nil) { notification in
             DispatchQueue.main.async {
@@ -114,7 +122,6 @@ class VideoClientMergeVC: UIViewController {
         }
         
         
-        
         NotificationCenter.default.addObserver(forName: VIDEO_THUMBNAIL4, object: nil, queue: nil) { notification in
             DispatchQueue.main.async {
                 
@@ -128,10 +135,13 @@ class VideoClientMergeVC: UIViewController {
     func resetOutletImages(){
         self.addVideoOutlet1.setBackgroundImage(#imageLiteral(resourceName: "vc_addVideoButton1"), for: .normal)
         self.addVideoOutlet1.setImage(nil, for: .normal)
+        
         self.addVideoOutlet2.setBackgroundImage(#imageLiteral(resourceName: "vc_addVideoButton2"), for: .normal)
         self.addVideoOutlet2.setImage(nil, for: .normal)
+        
         self.addVideoOutlet3.setBackgroundImage(#imageLiteral(resourceName: "vc_addVideoButton3"), for: .normal)
         self.addVideoOutlet3.setImage(nil, for: .normal)
+        
         self.addVideoOutlet4.setBackgroundImage(#imageLiteral(resourceName: "vc_addVideoButton4"), for: .normal)
         self.addVideoOutlet4.setImage(nil, for: .normal)
     }
@@ -144,7 +154,6 @@ class VideoClientMergeVC: UIViewController {
                 
                 self.imagePickerFromVC(self, usingDelegate: self)
                 
-                
             } else {
                 let alert = UIAlertController(title:"Unauthorized", message:"user authorized required for action", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
@@ -153,19 +162,10 @@ class VideoClientMergeVC: UIViewController {
             }
         )}
     
-    
-    
-    
-    
     func imagePickerFromVC(_ viewController: UIViewController, usingDelegate delegate : UINavigationControllerDelegate & UIImagePickerControllerDelegate) {
         
-        
-        if UIImagePickerController.isSourceTypeAvailable(.savedPhotosAlbum) == false {
-            let alert = UIAlertController(title: "ERROR", message: "Source not found", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-            present(alert,animated: true,completion: nil)
-        }
-        
+        if savedPhotosAvailable() {
+            
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .savedPhotosAlbum
         imagePicker.mediaTypes = [kUTTypeMovie as String]
@@ -173,7 +173,7 @@ class VideoClientMergeVC: UIViewController {
         imagePicker.delegate = delegate
         
         present(imagePicker, animated: true, completion: { })
-        
+        }
     }
     
     func savedPhotosAvailable() -> Bool {
@@ -187,8 +187,9 @@ class VideoClientMergeVC: UIViewController {
         return true
     }
     
-    //MARK: - merge video
-    func mergeVideo(_ mAssetsList:[AVAsset]){
+    //MARK: - merge video clips
+    func mergeVideo(_ videoList:[video]){
+        activityMonitor.startAnimating()
         
         let mainComposition = AVMutableVideoComposition()
         let mixComposition = AVMutableComposition()
@@ -196,67 +197,66 @@ class VideoClientMergeVC: UIViewController {
         let mainInstruction = AVMutableVideoCompositionInstruction()
         var allVideoInstruction = [AVMutableVideoCompositionLayerInstruction]()
         
-        var startDuration:CMTime = kCMTimeZero
-        
-        var atTimeM: CMTime = CMTimeMake(0, 0)
+        var startDuration = kCMTimeZero
+       
         var videoSize: CGSize = CGSize(width: 0.0, height: 0.0)
-         var totalTime : CMTime = CMTimeMake(0, 0)
-   
+       
+        var totalTime: CMTime = CMTimeMake(0, 0)
+        var time = 0.0
         
-        
-         for videoAsset in assetsArray {
+        //Mark: - Create tracks from array
+         for videoAsset in videoList {
             
             guard let videoTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.video,
                                                                     preferredTrackID: Int32(kCMPersistentTrackID_Invalid))
                 else {  return }
            
             do {
-                
-                if videoAsset == assetsArray.first {  atTimeM = kCMTimeZero  } else {
-                    atTimeM = totalTime // <-- Use the total time for all the videos seen so far.
-                }
-                try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.duration),
-                                               of: videoAsset.tracks(withMediaType: AVMediaType.video)[0],
-                                               at: atTimeM)
+
+                try videoTrack.insertTimeRange(CMTimeRangeMake(kCMTimeZero, videoAsset.videoAsset.duration),
+                                               of: videoAsset.videoAsset.tracks(withMediaType: AVMediaType.video)[0],
+                                               at: startDuration)
                 videoSize = videoTrack.naturalSize
+                    
+                let currentInstruction = videoCompositionInstructionForTrack(track: videoTrack, asset: videoAsset.videoAsset)
                 
-                
-                let currentInstruction = videoCompositionInstructionForTrack(track: videoTrack, asset: videoAsset)
-                
-                currentInstruction.setOpacityRamp(fromStartOpacity: 0.0, toEndOpacity: 1.0,
-                                                  timeRange: CMTimeRangeMake(startDuration, CMTimeMake(1, 1)))
- 
-              
-                 totalTime = CMTimeAdd(totalTime, videoAsset.duration)
+               
+                    currentInstruction.setOpacityRamp(fromStartOpacity: 1.0, toEndOpacity: 0.0,
+                                                      timeRange: CMTimeRangeMake(CMTimeSubtract(CMTimeAdd(videoAsset.videoAsset.duration, startDuration),
+                                                                                                CMTimeMake(1, 1)), CMTimeMake(2, 1)))
                 
                 let transform = videoTrack.preferredTransform
-                
+               
                 if orientationFromTransform(transform: transform).isPortrait {
-                    let outputSize:CGSize = CGSize(width: VIDEO_WIDTH, height: VIDEO_HEIGHT)
+                    let outputSize:CGSize = CGSize(width: videoSize.width, height: videoSize.height)
                     let horizontalRatio = CGFloat(outputSize.width) / videoTrack.naturalSize.width
                     
                     let verticalRatio = CGFloat(outputSize.height) / videoTrack.naturalSize.height
                     let scaleToFitRatio = max(horizontalRatio,verticalRatio)
                     let FirstAssetScaleFactor = CGAffineTransform(scaleX: scaleToFitRatio,y:scaleToFitRatio)
                     
-                    if videoAsset.g_orientation == .landscapeLeft {
+                    if videoAsset.videoAsset.g_orientation == .landscapeLeft {
                         let rotation = CGAffineTransform(rotationAngle: .pi)
                         
                         let translateToCenter = CGAffineTransform(translationX: CGFloat(VIDEO_WIDTH),y: CGFloat(VIDEO_HEIGHT))
                         let mixedTransform = rotation.concatenating(translateToCenter)
+                    currentInstruction.setTransform(videoTrack.preferredTransform.concatenating(FirstAssetScaleFactor).concatenating(mixedTransform), at: kCMTimeZero)
                         
-                        currentInstruction.setTransform(videoTrack.preferredTransform.concatenating(FirstAssetScaleFactor).concatenating(mixedTransform), at: kCMTimeZero)
                     } else {
                         currentInstruction.setTransform(videoTrack.preferredTransform.concatenating(FirstAssetScaleFactor), at: kCMTimeZero)
                     }
                 }
-                allVideoInstruction.append(currentInstruction)
+               
+                startDuration = CMTimeAdd(startDuration,videoAsset.videoAsset.duration)
+                time += videoAsset.videoAsset.duration.seconds
+                totalTime = CMTime(seconds: time, preferredTimescale: 1)
                 
-                startDuration = CMTimeAdd(startDuration,videoAsset.duration)
+                 allVideoInstruction.append(currentInstruction)
+                print("totalTime",totalTime)
                 
             } catch {  print("ERROR_LOADING_VIDEO")  }
             
-        } //end for loop
+        }
         mainInstruction.timeRange = CMTimeRangeMake(kCMTimeZero, startDuration)
         mainInstruction.layerInstructions = allVideoInstruction
         
@@ -265,23 +265,51 @@ class VideoClientMergeVC: UIViewController {
         mainComposition.renderSize = CGSize(width: VIDEO_WIDTH, height: VIDEO_HEIGHT)
         
         //MARK: - audio track
-        if let loadedAudioAsset = audioAsset {
+        guard let loadedAudioAsset = audioAsset else  {
+            
+            self.activityMonitor.stopAnimating()
+            print("no audio track selected")
+            let alert =  UIAlertController(title: "No Audio", message: "Please Select Audio Track Then Merge", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil ))
+            
+            present(alert, animated: true, completion: nil)
+            return
+            
+        }
             
             let audioTrack = mixComposition.addMutableTrack(withMediaType: AVMediaType.audio, preferredTrackID: 0)
-            
+            //need to extend audio
             do {
-                try audioTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, CMTimeAdd((assetsArray.first?.duration)!, (assetsArray.last?.duration)!)), of: loadedAudioAsset.tracks(withMediaType: AVMediaType.audio)[0], at: kCMTimeZero)
-            } catch {  print("failed to load audio") }
+               
+                if videoArray.count < 2 || videoArray.count == 2 {
+                    print("print array count < 2",videoArray.count)
+                    try audioTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, CMTimeAdd((videoArray.first?.videoAsset.duration)!, (videoArray.last?.videoAsset.duration)!)), of: loadedAudioAsset.tracks(withMediaType: AVMediaType.audio)[0], at: kCMTimeZero)
+                }
+                if videoArray.count == 3 {
+                    
+                    try audioTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, CMTimeAdd((CMTimeAdd((videoArray.first?.videoAsset.duration)!, (videoArray[1].videoAsset.duration))), (videoArray.last?.videoAsset.duration)!)), of: loadedAudioAsset.tracks(withMediaType: AVMediaType.audio)[0], at: kCMTimeZero)
+                }
+                
+                if videoArray.count  == 4 {
+                   
+                    try audioTrack?.insertTimeRange(CMTimeRangeMake(kCMTimeZero, CMTimeAdd((CMTimeAdd((videoArray.first?.videoAsset.duration)!, (videoArray[1].videoAsset.duration))), (CMTimeAdd(( videoArray[2]).videoAsset.duration, (videoArray[3].videoAsset.duration))))), of: loadedAudioAsset.tracks(withMediaType: AVMediaType.audio)[0], at: kCMTimeZero)
+                }
+            }
+            catch {
+                
+                activityMonitor.stopAnimating()
+                let alert = UIAlertController.init(title: "Audio", message: error.localizedDescription, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+                
+                self.present(alert, animated: true,completion: nil)
         }
-        
-        
+
         
         let documentDirectory = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true)[0]
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .long
         dateFormatter.timeStyle = .short
         let date = dateFormatter.string(from: Date())
-        
         let savePath = (documentDirectory as NSString).appendingPathComponent("mergeVideo-\(date).mp4")
         
         let url  = NSURL(fileURLWithPath: savePath)
@@ -295,7 +323,7 @@ class VideoClientMergeVC: UIViewController {
         assetExporter.shouldOptimizeForNetworkUse = true
         assetExporter.videoComposition = mainComposition
         
-        //MARK: perform export
+        //MARK:- perform export
         assetExporter.exportAsynchronously(){
             DispatchQueue.main.async() {
                 print("run dispatchQueue")
@@ -346,55 +374,52 @@ class VideoClientMergeVC: UIViewController {
         } else {
             
             let scaleFactor = CGAffineTransform(scaleX: scaleToFitRatio, y: scaleToFitRatio)
-            //var concat = CGAffineTransform.concatenating(scaleFactor)
-            
             var concat = assetTrack.preferredTransform.concatenating(scaleFactor).concatenating(CGAffineTransform(translationX: 0, y: UIScreen.main.bounds.width / 2))
             
             if assetInfo.orientation == .down {
+                
                 let fixUpsideDown = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
                 
                 let windowsBounds = UIScreen.main.bounds
                 let yFix = assetTrack.naturalSize.height + windowsBounds.height
                 let centerFix = CGAffineTransform(translationX: assetTrack.naturalSize.width, y: yFix)
-                
                 concat = fixUpsideDown.concatenating(centerFix).concatenating(scaleFactor)
                 
             }
             instruction.setTransform(concat, at: kCMTimeZero)
         }
-        
         return instruction
-        
     }
     
     func exportDidFinish(session: AVAssetExportSession) {
-        print("running exportDidFinish")
+      
         if session.status == AVAssetExportSessionStatus.completed {
-            
             guard let outputURL = session.outputURL else {
-                print("could not set outputURL")
                 return
             }
             playbackURL = outputURL
-            print("playbackURL = ",outputURL)
             assetCheck()
             
             PHPhotoLibrary.shared().performChanges({
                 let options = PHAssetResourceCreationOptions()
                 options.shouldMoveFile = false
                 
-                //MARK: Create video file
+                //MARK:- Add video to Photos lib
                 
                 let creationRequest = PHAssetCreationRequest.forAsset()
                 creationRequest.addResource(with: .video, fileURL:  outputURL, options: options)
-                print("save to PhotoLib")
             }, completionHandler: { (success, error) in
                 if !success {
-                    print("Could not save video to photo library: ",error?.localizedDescription ?? "error code not found: SaveToPhotoLibrary")
+                    
+                    let alert = UIAlertController(title: "PhotoLib Fail", message: error?.localizedDescription, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
+                    self.present(alert, animated: true, completion: nil)
+
                     return
                 }
-                print("Ⓜ️save video to PhotosAlbum")
-                
+                DispatchQueue.main.async {
+                     self.videoPlaybackOutlet.isEnabled = true
+                }
                 let alert = UIAlertController(title: "Merge", message: "video merge complete", preferredStyle: .alert)
                 alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
                 self.present(alert, animated: true, completion: nil)
@@ -409,22 +434,20 @@ class VideoClientMergeVC: UIViewController {
     func setPlayBackURL(_ videoAsset:AVAsset?)-> URL{
         
         let playbackItem = videoAsset?.value(forKey: "URL")
-        
         return playbackItem as! URL
     }
     
+    //check requirements before enabling IBActions
     func assetCheck(){
         
-        if assetsArray.count > 0 {
-            
-            videoPlaybackOutlet.isEnabled = true
+         if videoArray.count > 0 {
             videoPostOutlet.isEnabled = true
-        } else {
-            videoPlaybackOutlet.isEnabled = false
+            
+         } else {
             videoPostOutlet.isEnabled = false
         }
         
-        if assetsArray.count >= 2 {
+        if videoArray.count >= 2 && audioTrackDidLoad == true {
             mergeAssetsOutlet.isEnabled = true
         } else {
             mergeAssetsOutlet.isEnabled = false
@@ -432,14 +455,14 @@ class VideoClientMergeVC: UIViewController {
     }
     
     func resetAssets(){
+        
         print("reset all assets and removeall from array")
         videoAsset = nil
-        assetsLoaded = 0
-        assetsArray.removeAll()
+        videoArray.removeAll()
+        mergeAssetsOutlet.isEnabled = false
         audioAsset = nil
+        audioTrackDidLoad = false
         resetOutletImages()
-        
-        
     }
     
     //MARK:- IBAction
@@ -449,66 +472,63 @@ class VideoClientMergeVC: UIViewController {
     
     @IBAction func loadVideoAssetOne(_ sender: AnyObject) {
         
-        if savedPhotosAvailable(){
             getVideo()
             tagID = sender.tag
-            
-            
-        }
     }
     
     
     @IBAction func loadVideoAssetTwo(_ sender: AnyObject) {
-        if savedPhotosAvailable(){
-            getVideo()
-            tagID = sender.tag
-            
-        }
+        
+        getVideo()
+        tagID = sender.tag
     }
-    
-    
     
     @IBAction func loadVideoAssetThree(_ sender: AnyObject) {
-        if savedPhotosAvailable(){
-            getVideo()
-            tagID = sender.tag
-            
-        }
+        
+        getVideo()
+        tagID = sender.tag
     }
-    
     
     @IBAction func loadVideoAssetFour(_ sender: AnyObject) {
-        if savedPhotosAvailable(){
-            getVideo()
-            tagID = sender.tag
-            
-        }
+        
+        getVideo()
+        tagID = sender.tag
     }
     
     
-    @IBAction func loadAudioAsset(_ sender: AnyObject) {
+    @IBAction func loadAudioAssetButton(_ sender: AnyObject) {
+        
+       loadAudioAsset()
+    }
+    
+  
+    func loadAudioAsset(){
         
         let mediaPickerController = MPMediaPickerController.self(mediaTypes: .music)
         mediaPickerController.allowsPickingMultipleItems = false
         mediaPickerController.delegate = self
         mediaPickerController.prompt = "select audio"
         present(mediaPickerController, animated:  true, completion: nil)
-        
+        audioTrackDidLoad = true
     }
     
     
     @IBAction func mergeAssets(_ sender: AnyObject) {
-        print("🔴 merge pressed")
-        mergeVideo(assetsArray)
+       
+        mergeVideo(videoArray)
     }
+    
     @IBAction func postVideoURLAction(_ sender: UIButton) {
-        performSegue(withIdentifier: "postVideoURL", sender: playbackURL)
         
+        performSegue(withIdentifier: "postVideoURL", sender: playbackURL)
     }
+    
     @IBAction func playbackAction(_ sender: Any) {
+        
         guard let playbackURL = playbackURL else {
             return
         }
+        
         avPlayer = AVPlayer(url: playbackURL)
         avPlayerViewController.player = self.avPlayer
         
@@ -520,168 +540,4 @@ class VideoClientMergeVC: UIViewController {
     deinit {
         NotificationCenter.default.removeObserver(self)
     }
-    
-    
 }
-//MARK: - Extensions
-extension AVAsset {
-    var g_size: CGSize {
-        return tracks(withMediaType: AVMediaType.video).first?.naturalSize ?? .zero
-    }
-    var g_orientation: UIInterfaceOrientation {
-        guard let transform = tracks(withMediaType: AVMediaType.video).first?.preferredTransform else {
-            return .portrait
-        }
-        switch (transform.tx,transform.ty) {
-        case (0,0):
-            return .landscapeRight
-        case (g_size.width, g_size.height):
-            return .landscapeLeft
-        case (0, g_size.width):
-            return .portraitUpsideDown
-        default:
-            return .portrait
-        }
-    }
-    
-    
-}
-
-extension VideoClientMergeVC: UIImagePickerControllerDelegate {
-    
-    
-    // func generateThumbnailForVideoAtURL(filePathLocal: URL, completionForThumnailGen: @escaping (_ success: Bool, _ error: String)-> Void) -> UIImage? {
-    
-    func generateThumbnailForVideoAtURL(filePathLocal: URL, completionHandlerForThumbnailGen: @escaping (_ success: Bool,_ error: String)->Void) -> UIImage? {
-        
-        let asset = AVURLAsset(url: filePathLocal)
-        let generator = AVAssetImageGenerator(asset: asset)
-        generator.appliesPreferredTrackTransform = true
-        generator.maximumSize = CGSize(width: 122.0, height: 85.0)
-        
-        let timestamp = CMTime(seconds: 1, preferredTimescale: 60)
-        
-        do {
-            let thumbnailGen = try generator.copyCGImage(at: timestamp, actualTime: nil)
-            completionHandlerForThumbnailGen(true, "error")
-            
-            return UIImage(cgImage: thumbnailGen)
-        }
-        catch let error as NSError
-        {
-            print("Image generation failed with error \(error)")
-            return nil
-        }
-        
-    }
-    func updateOutletImage(_ tagID:Int){
-      
-        
-        switch tagID {
-        case 1:
-            NotificationCenter.default.post(name: VIDEO_THUMBNAIL1, object: self)
-        case 2:
-            NotificationCenter.default.post(name: VIDEO_THUMBNAIL2, object: self)
-        case 3:
-             NotificationCenter.default.post(name: VIDEO_THUMBNAIL3, object: self)
-        case 4:
-             NotificationCenter.default.post(name: VIDEO_THUMBNAIL4, object: self)
-            
-        default:
-             NotificationCenter.default.post(name: VIDEO_THUMBNAIL1, object: self)
-        }
-        
-        
-        
-    }
-    
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [String : Any]) {
-        
-        let mediaType = info[UIImagePickerControllerMediaType] as! NSString
-        
-        picker.dismiss(animated: true, completion: nil)
-        var message = "done"
-        
-        //send notification from here
-        
-        if mediaType == kUTTypeMovie {
-            let avAsset = AVAsset(url:info[UIImagePickerControllerMediaURL] as! URL)
-            
-            message = "Video loaded"
-            videoAsset = avAsset
-            guard let videoAsset = videoAsset else {
-                return
-            }
-            assetsArray.append(videoAsset)
-            print("videoAsset \(videoAsset)\n")
-            assetCheck()
-            
-            //set playback url for sigle file upload
-            playbackURL = setPlayBackURL(videoAsset)
-            guard let playbackURL = playbackURL else {
-                return
-            }
-            
-            //picker.dismiss(animated: true, completion: nil)
-            
-            let alert = UIAlertController(title: "Asset Loaded", message: message, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.cancel, handler: nil))
-            self.present(alert, animated: true, completion: {self.thumbnailOutletImage = self.generateThumbnailForVideoAtURL(filePathLocal: playbackURL, completionHandlerForThumbnailGen: { (success, error) in
-                
-                if (success == true) {
-                    print("did run")
-                    self.updateOutletImage(tagID)
-                }
-                
-            })
-                
-        })
-            
-        }
-    }
-    
-}
-
-
-
-
-extension VideoClientMergeVC: UINavigationControllerDelegate {
-    
-}
-
-extension VideoClientMergeVC: MPMediaPickerControllerDelegate {
-    
-    @objc(mediaPicker:didPickMediaItems:) func mediaPicker(_ mediaPicker: MPMediaPickerController, didPickMediaItems mediaItemCollection: MPMediaItemCollection){
-        let selectedSongs = mediaItemCollection.items
-        
-        if selectedSongs.count > 0 {
-            let song = selectedSongs[0]
-            
-            if let url = song.value(forProperty: MPMediaItemPropertyAssetURL) as? URL{
-                audioAsset = (AVAsset(url: url ))
-                dismiss(animated: true, completion: nil)
-                let alert = UIAlertController(title: "Asset loaded", message: "audio loaded", preferredStyle: .alert)
-                
-                alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-                present(alert, animated: true, completion: nil)
-            }
-            else {
-                dismiss(animated: true, completion: nil)
-                let alert = UIAlertController(title: "Asset not available", message: "Audio not loaded", preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "ok", style: .cancel, handler: nil))
-                present(alert, animated: true,completion:  nil)
-            }
-            
-            
-        } else {
-            dismiss(animated: true, completion: nil)
-        }
-    }
-    
-    func mediaPickerDidCancel(_ mediaPicker: MPMediaPickerController) {
-        dismiss(animated: true, completion: nil)
-    }
-    
-}
-

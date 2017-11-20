@@ -20,18 +20,7 @@ let VIDEO_THUMBNAIL4 = Notification.Name("VideoThumbnail4")
 
 class VideoClientDataModel: NSObject {
     
-    struct video {
-        
-        
-        var videoThumbnail: UIImage
-        var videoAsset: AVAsset
-        
-        init(videoThumbnail: UIImage, videoAsset:AVAsset ) {
-           
-            self.videoThumbnail = videoThumbnail
-            self.videoAsset = videoAsset
-        }
-    }
+   
     
     enum httpMethod {
         case POST
@@ -49,4 +38,12 @@ class VideoClientDataModel: NSObject {
             self.urlMethodAsString = urlMethodAsString
         }
     }
+    class func sharedInstance()-> VideoClientDataModel {
+        struct Singleton {
+            static var sharedInstance = VideoClientDataModel()
+                
+            }
+        return Singleton.sharedInstance
+        }
+    
 }
